@@ -13,8 +13,8 @@ from dotenv import load_dotenv
 # Downloading the API Key
 load_dotenv()
 
-st.set_page_config(page_title="Synthetic Data Generator", page_icon="⚛️")
-st.write("## Synthetica - Your assistant for data generation")
+st.set_page_config(page_title="AI Course Creator", page_icon="⚛️")
+st.write("### WriteAI - Tu asistente para la creacion de un Curso Online")
 
 if "initialized" not in st.session_state:
     st.session_state.initialized = True
@@ -33,11 +33,11 @@ def run_python_file(filepath):
     exec(code, globals(), globals())
 
 # Sidebar
-st.sidebar.title('Synthetica Qualities and Certifications')
-llm_a_usar = st.sidebar.selectbox('**Choose your Model:**', ['GPT-4', 'GPT-3.5'], index=0)
-industry_knowledge = st.sidebar.text_input('Industry Expertise:', '')
-Academic_Background = st.sidebar.text_input('Academic Background:', '')
-option = st.sidebar.button('Confirm',
+course_theme = st.sidebar.text_input('De que se trata el Curso:', '')
+target_audience = st.sidebar.text_input('A quien va dirigido:', '')
+value_proposition = st.sidebar.text_input('Que valor aporta a la audiencia:', '')
+llm_a_usar = st.sidebar.selectbox('**Escoge tu modelo:**', ['GPT-4', 'GPT-3.5'], index=0)
+option = st.sidebar.button('Empezar',
                            on_click=select_option,
                            disabled=st.session_state.disabled)
 # End of Sidebar
@@ -49,7 +49,7 @@ elif llm_a_usar == "GPT-3.5":
 if st.session_state.selected_option: 
     if "messages" not in st.session_state:
         st.session_state.messages = [SystemMessage(content = get_system_prompt()),
-                                     HumanMessage(content = f"To get started, please briefly introduce yourself, your Industry Expertise and Academic Background ({industry_knowledge} and {Academic_Background}) and describe your function at a high level. Then provide two simple example questions that the user could ask you to illustrate your capabilities.", additional_kwargs={"first_prompt": True})]
+                                     HumanMessage(content = f"Para comenzar, por favor introdúcete brevemente como un experto en creación de cursos en línea y escritor, y describe tu función a un nivel alto. Además, menciona que ayudarás en la creación de un curso en línea relacionado con {course_theme} con enfoque en la siguiente audiencia {target_audience} deseando tener la siguiente {value_proposition}.", additional_kwargs={"first_prompt": True})]
 
     if prompt := st.chat_input():
         st.session_state.messages.append(HumanMessage(content = prompt))
