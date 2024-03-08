@@ -1,0 +1,6 @@
+temp/*
+data/*
+__pycache__
+.streamlit/secrets.toml
+postcodes/*
+prompts_red*
