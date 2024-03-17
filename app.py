@@ -9,12 +9,11 @@ import pandas as pd
 import traceback
 from dotenv import load_dotenv
 
-
-# Downloading the API Key
-load_dotenv()
-
 st.set_page_config(page_title="AI Course Creator", page_icon="⚛️")
 st.write("### WriteAI - Tu asistente para la creacion de un Curso Online")
+
+# Downloading the API Key
+os.environ["OPENAI_API_KEY"] = st.sidebar.text_input("Ingresa tu OpenAI Key", type="password")
 
 if "initialized" not in st.session_state:
     st.session_state.initialized = True
@@ -42,9 +41,9 @@ option = st.sidebar.button('Empezar',
                            disabled=st.session_state.disabled)
 # End of Sidebar
 if llm_a_usar == "GPT-4": 
-    llm = ChatOpenAI(model="gpt-4-0125-preview", temperature=0.2)
+    llm = ChatOpenAI(model="gpt-4-0125-preview", temperature=0.2, openai_api_key=os.getenv("OPENAI_API_KEY"))
 elif llm_a_usar == "GPT-3.5":
-    llm = ChatOpenAI(model="gpt-3.5-turbo-0125", temperature=0.2)
+    llm = ChatOpenAI(model="gpt-3.5-turbo-0125", temperature=0.2, openai_api_key=os.getenv("OPENAI_API_KEY"))
 
 if st.session_state.selected_option: 
     if "messages" not in st.session_state:
